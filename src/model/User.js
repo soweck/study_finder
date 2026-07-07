@@ -45,6 +45,15 @@ export default class User {
   }
 
   /**
+   * Updates the user's display name.
+   * @param {string} newName - The new name for the user.
+   */
+  changeName(newName) {
+    //TODO: Add validation for name if required
+    this.#name = newName;
+  }
+
+  /**
    * Updates the user's status text.
    * @param {string} status - The new status value.
    */
