@@ -1,5 +1,5 @@
 export class StudySession {
-  constructor(id, title, startDate, location, participants, capacity) {
+  constructor(id, title, startDate, location, participants = [], capacity) {
     this.id = id;
     this.title = title;
     this.startDate = startDate;
@@ -8,9 +8,10 @@ export class StudySession {
     this.capacity = capacity;
   }
 
-  addParticipants(participant) {
-    if (!this.isFull()) {
-      this.participants.push(participant);
+  addParticipants(participantId) {
+    const participantIdStr = String(participantId);
+    if (!this.participants.includes(participantIdStr) && !this.isFull()) {
+      this.participants.push(participantIdStr);
     }
   }
 

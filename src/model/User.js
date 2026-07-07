@@ -1,19 +1,18 @@
 export class User {
-  constructor(id, name, friends, status, activity, note) {
-    this.id = id;
+  constructor(id, name, friends = [], status = "", activity = "", note = "") {
+    this.id = String(id);
     this.name = name;
-    this.friends = friends;
+    this.friends = friends.map(friendId => String(friendId));
     this.status = status;
     this.activity = activity;
     this.note = note;
   }
 
   addFriend(friendId) {
-    if (!friendId || typeof friendId === "object") {
-      console.error(`Invalid friendId provided: ${friendId}`);
-      return;
+    const friendIdStr = String(friendId);
+    if (!this.friends.includes(friendIdStr)) {
+      this.friends.push(friendIdStr);
     }
-    this.friends.push(friendId);
   }
 
   changeStatus(status) {
