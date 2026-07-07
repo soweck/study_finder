@@ -1,7 +1,7 @@
 /**
  * Represents a study session
  */
-export default class StudySession {
+export class StudySession {
   #id;
   #title;
   #participants;

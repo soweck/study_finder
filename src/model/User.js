@@ -1,7 +1,7 @@
 /**
  * Represents a user profile
  */
-export default class User {
+export class User {
   #id;
   #name;
   #friends;
