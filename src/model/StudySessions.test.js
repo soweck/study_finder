@@ -1,5 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { createStudySessions } from "./__fixtures__/session-fixtures.js";
+
 describe("Testing study session model functionality", () => {
   test("Testing session ID conversion from int to string", () => {
     const session = createStudySessions({ id: 1 });
@@ -15,7 +16,7 @@ describe("Testing study session model functionality", () => {
     session.addParticipants("3");
     expect(session.participants).toEqual([...initialParticipants, "3"]);
   });
-  test("Testing addParticipants with int input expecting to be converted to string", () => {
+  test("Testing addParticipants with number input expecting to be converted to string", () => {
     const session = createStudySessions();
     const initialParticipants = [...session.participants];
     session.addParticipants(3);
@@ -25,6 +26,12 @@ describe("Testing study session model functionality", () => {
     const session = createStudySessions({ capacity: 2 });
     const initialParticipants = [...session.participants];
     session.addParticipants(3);
+    expect(session.participants).toEqual(initialParticipants);
+  });
+  test("Testing addParticipants with duplicate participant", () => {
+    const session = createStudySessions();
+    const initialParticipants = [...session.participants];
+    session.addParticipants(initialParticipants[0]);
     expect(session.participants).toEqual(initialParticipants);
   });
 });
