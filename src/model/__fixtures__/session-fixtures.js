@@ -1,4 +1,4 @@
-import StudySession from "../study-session.js";
+import { StudySession } from "../study-session.js";
 
 const session = {
   id: "0",
