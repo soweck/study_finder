@@ -1,5 +1,4 @@
 import { describe, expect, test } from "vitest";
-import User from "./study-session.js";
 import { createUser } from "./__fixtures__/user-fixtures.js";
 
 describe("Testing user model functionality", () => {

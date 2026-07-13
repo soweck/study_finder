@@ -1,5 +1,6 @@
 import { describe, expect, test } from "vitest";
-import { createStudySessions } from "./__fixtures__/session-fixtures.js";
+
+import { createStudySessions } from "./__fixtures__/StudySession.fixtures.js";
 
 describe("Testing study session model functionality", () => {
   test("Testing session ID conversion from int to string", () => {

@@ -1,4 +1,4 @@
-import { StudySession } from "../study-session.js";
+import StudySession from "../StudySession.js";
 
 const session = {
   id: "0",
@@ -9,6 +9,5 @@ const session = {
   capacity: 5,
 };
 
-export const createStudySessions = (overrides = {}) => {
-  return new StudySession({ ...session, ...overrides });
-};
+export const createStudySessions = (overrides = {}) =>
+  new StudySession({ ...session, ...overrides });

@@ -1,10 +1,13 @@
 /**
  * Represents a study session
  */
-export class StudySession {
+export default class StudySession {
   #id;
+
   #title;
+
   #participants;
+
   constructor({
     id,
     title = "Untitled Session",
@@ -40,7 +43,7 @@ export class StudySession {
    * @param {string} newTitle - The new title for the session.
    */
   changeTitle(newTitle) {
-    //TODO: Add validation for title if required
+    // TODO: Add validation for title if required
     this.#title = newTitle;
   }
 

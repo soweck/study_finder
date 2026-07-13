@@ -90,13 +90,14 @@ Use **lowercase, plural, kebab-case** for multi-word folder names:
 
 ### Files
 
-| File exports...                          | Convention              | Example                  |
-|-------------------------------------------|--------------------------|--------------------------|
-| A single class                            | `PascalCase.js` (matches class name) | `User.js`, `StudySession.js` |
-| A UI-building/component function          | `PascalCase.js` (matches function name) | `SessionCard.js`, `TopNavigation.js` |
-| A plain utility/helper function           | `camelCase.js`           | `formatTime.js`, `loadUsers.js` |
-| A config file                             | `kebab-case.config.js`   | `vite.config.js`         |
-| A test file                               | mirrors the file under test + `.test.js` | `User.test.js` |
+| File exports...                  | Convention                               | Example                                       |
+| -------------------------------- | ---------------------------------------- | --------------------------------------------- |
+| A single class                   | `PascalCase.js` (matches class name)     | `User.js`, `StudySession.js`                  |
+| A UI-building/component function | `PascalCase.js` (matches function name)  | `SessionCard.js`, `TopNavigation.js`          |
+| A plain utility/helper function  | `camelCase.js`                           | `formatTime.js`, `loadUsers.js`               |
+| A config file                    | `kebab-case.config.js`                   | `vite.config.js`                              |
+| A test file                      | mirrors the file under test + `.test.js` | `User.test.js`                                |
+| A test fixture/factory           | `<singular-entity>.fixture.js`           | `user.fixture.js`, `study-session.fixture.js` |
 
 **Rule of thumb:** the filename should always match the name of its default/primary
 export exactly (case-sensitive). This avoids the single most common source of
@@ -211,16 +212,16 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 **Types:**
 
-| Type       | Use for                                              |
-|------------|-------------------------------------------------------|
-| `feat`     | A new feature                                         |
-| `fix`      | A bug fix                                             |
-| `docs`     | Documentation only changes                            |
-| `style`    | Formatting, missing semicolons, etc. (no code change)  |
-| `refactor` | Code change that neither fixes a bug nor adds a feature|
-| `test`     | Adding or correcting tests                             |
-| `chore`    | Build process, tooling, or dependency changes          |
-| `perf`     | Performance improvement                                |
+| Type       | Use for                                                 |
+| ---------- | ------------------------------------------------------- |
+| `feat`     | A new feature                                           |
+| `fix`      | A bug fix                                               |
+| `docs`     | Documentation only changes                              |
+| `style`    | Formatting, missing semicolons, etc. (no code change)   |
+| `refactor` | Code change that neither fixes a bug nor adds a feature |
+| `test`     | Adding or correcting tests                              |
+| `chore`    | Build process, tooling, or dependency changes           |
+| `perf`     | Performance improvement                                 |
 
 **Examples:**
 

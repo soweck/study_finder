@@ -1,4 +1,5 @@
-import { User } from "../user.js";
+import { User } from "../User.js";
+
 const user = {
   id: 1,
   name: "Andrew",
