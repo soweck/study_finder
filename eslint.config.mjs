@@ -13,15 +13,9 @@ export default defineConfig([
   includeIgnoreFile(gitignorePath),
 
   // neostandard: correctness + logic rules only.
-  // noStyle: true means Prettier owns 100% of formatting —
-  // no double-managed style rules, no possible conflicts.
   ...neostandard({ noStyle: true, noJsx: true }),
 
-  // Import correctness rules (the thing we actually wanted from
-  // Airbnb in the first place — catches broken/mismatched imports
-  // like the ../models/User.js vs ../model/User.js bug).
-  // neostandard dropped this from its own bundle to stay lean;
-  // this is their documented way to add it back.
+  // Import correctness rules
   {
     name: "import-x/config",
     files: ["src/**/*.js"],
@@ -32,6 +26,7 @@ export default defineConfig([
       "import-x/default": "error",
       "import-x/export": "error",
       "import-x/no-duplicates": "error",
+      "import-x/no-default-export": "error", // Enforces strict named exports uniform layout
     },
   },
 
@@ -45,6 +40,24 @@ export default defineConfig([
       globals: {
         ...globals.browser,
       },
+    },
+  },
+
+  // Corporate Architecture Safeguards
+  {
+    name: "js/architecture-safeguards",
+    files: ["src/**/*.js"],
+    rules: {
+      "no-unused-vars": [
+        "error",
+        { vars: "all", args: "after-used", ignoreRestSiblings: true },
+      ],
+      "no-const-assign": "error",
+      "no-undef": "error",
+      "no-console": ["warn", { allow: ["warn", "error"] }],
+      "no-param-reassign": ["error", { props: true }],
+      "no-unused-private-class-members": "error",
+      "no-useless-constructor": "error",
     },
   },
 

@@ -1,6 +1,3 @@
-/**
- * Represents a user profile
- */
 export class User {
   #id;
   #name;
