@@ -76,4 +76,15 @@ export class User {
     //TODO: Add validation for note if required
     this.note = note;
   }
+
+  toJSON() {
+    return {
+      id: this.id,
+      name: this.name,
+      friends: this.friends,
+      status: this.status,
+      activity: this.activity,
+      note: this.note,
+    };
+  }
 }

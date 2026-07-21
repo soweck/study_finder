@@ -60,4 +60,15 @@ export class StudySession {
   isFull() {
     return this.participants.length >= this.capacity;
   }
+
+  toJSON() {
+    return {
+      id: this.id,
+      title: this.title,
+      startDate: this.startDate,
+      location: this.location,
+      participants: this.participants,
+      capacity: this.capacity,
+    };
+  }
 }
