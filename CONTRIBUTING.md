@@ -7,13 +7,15 @@ review — whether there's one contributor or ten.
 These conventions are based on widely adopted, industry-standard references
 rather than ad-hoc preference:
 
-- [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript) — naming, syntax, ES6+ usage
+- [neostandard](https://github.com/neostandard/neostandard) — correctness/logic rules, via ESLint flat config
+- [Prettier](https://prettier.io/) — all formatting (indentation, quotes, semicolons, line length)
 - [Conventional Commits](https://www.conventionalcommits.org/) — commit message format
 - [Semantic Versioning (SemVer)](https://semver.org/) — release/version numbering
 - [Keep a Changelog](https://keepachangelog.com/) — changelog format
 
-If a situation isn't covered here, default to the Airbnb guide first, then
-open a discussion in a PR if it's genuinely ambiguous.
+If a situation isn't covered here, defer to what `eslint.config.mjs` and
+Prettier already enforce, then open a discussion in a PR if it's genuinely
+ambiguous.
 
 ---
 
@@ -98,6 +100,7 @@ Use **lowercase, plural, kebab-case** for multi-word folder names:
 | A config file                    | `kebab-case.config.js`                   | `vite.config.js`                              |
 | A test file                      | mirrors the file under test + `.test.js` | `User.test.js`                                |
 | A test fixture/factory           | `<singular-entity>.fixture.js`           | `user.fixture.js`, `study-session.fixture.js` |
+| A fallback/seed data file        | `<plural-entity>.seed.json`              | `users.seed.json`, `sessions.seed.json`       |
 
 **Rule of thumb:** the filename should always match the name of its default/primary
 export exactly (case-sensitive). This avoids the single most common source of
@@ -139,19 +142,51 @@ class User {
 // SCREAMING_SNAKE_CASE only for true constants (module-level, never reassigned,
 // represent a fixed configuration value)
 const MAX_PARTICIPANTS_SHOWN = 3;
-const CURRENT_USER_ID = 1;
 
 // Everything else that happens to not be reassigned is just `const`, not
 // SCREAMING_SNAKE_CASE — reserve that for genuine "config" values
 const users = await loadUsers(); // not USERS
 ```
 
+### Module Exports
+
+Export style depends on **what kind of file it is**, not personal preference —
+enforced by `eslint.config.mjs`, not just documented here:
+
+| File type                                                     | Export style                                 | Why                                                                                                         |
+| ------------------------------------------------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `components/**`, `pages/**` (UI-building functions)           | **Default export**                           | The file's entire reason to exist is "this one component" — one thing in, one thing out.                    |
+| `models/**`, `store/**`, `utils/**`, `services/**`, `data/**` | **Named exports only** — no `export default` | These files often export more than one thing, and named exports keep every import explicit and rename-safe. |
+
+```js
+// ✅ components/SessionCard.js — default export, this file IS the component
+export default function SessionCard({ session }) { ... }
+
+// ✅ models/User.js — named export, no default
+export class User { ... }
+
+// ❌ utils/formatTime.js — do not default-export a utility
+export default function formatTime(date) { ... } // wrong for this folder
+
+// ✅ utils/formatTime.js — correct
+export function formatTime(date) { ... }
+```
+
+If you're not sure which bucket a new file falls into, check which folder
+it lives in first — the folder decides the export style, not the other way
+around.
+
 ---
 
 ## Coding Style
 
-This project follows the [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript).
-Highlights most relevant to this codebase:
+Correctness and logic rules are enforced by [neostandard](https://github.com/neostandard/neostandard)
+via ESLint's flat config, with [`eslint-plugin-import-x`](https://github.com/un-ts/eslint-plugin-import-x)
+added for import validation. All formatting — indentation, quotes, semicolons,
+line length — is owned entirely by [Prettier](https://prettier.io/), not
+ESLint, to avoid the two tools disagreeing with each other.
+
+General conventions this implies:
 
 - **Never use `var`.** Use `const` by default, `let` only when reassignment is required.
 - **Prefer arrow functions** for anonymous functions and callbacks.
@@ -160,12 +195,10 @@ Highlights most relevant to this codebase:
 - **Always use strict equality** (`===` / `!==`).
 - **Always use semicolons.**
 - **2-space indentation.**
-- **Single quotes** for strings, except to avoid escaping.
 - **Trailing commas** in multi-line object/array literals.
-- One `export default` per file, named exports for anything secondary.
+- **Blank line before and after every function declaration and every class method**, and before every `return` — enforced via `@stylistic/eslint-plugin`, the one formatting exception layered on top of Prettier for spacing rules Prettier doesn't cover.
 
-Formatting is enforced by [Prettier](https://prettier.io/) and linted by
-[ESLint](https://eslint.org/) (Airbnb base config). Run before committing:
+Run before committing:
 
 ```bash
 npm run lint
@@ -252,6 +285,8 @@ Keep the summary line under 72 characters, written in the imperative mood
 
 - Every new class method or utility function should have a corresponding test.
 - Tests live next to the code they test, or in `__fixtures__/` for shared test data.
+- Fixture/factory files follow `<singular-entity>.fixture.js` (e.g. `user.fixture.js`) and export a
+  `create<Entity>(overrides = {})` factory function — never hardcode a full object inline in the test file itself.
 - Test names should describe the behavior, not the implementation:
 
 ```js
