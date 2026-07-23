@@ -2,6 +2,7 @@ export class StudySession {
   #id;
   #title;
   #participants;
+  #ownerId;
 
   constructor({
     id,
@@ -10,6 +11,7 @@ export class StudySession {
     location,
     participants = [],
     capacity = 99,
+    ownerId,
   }) {
     this.#id = String(id);
     this.#title = title;
@@ -19,6 +21,7 @@ export class StudySession {
       String(participantId),
     );
     this.capacity = capacity;
+    this.#ownerId = String(ownerId);
   }
 
   get id() {
@@ -33,11 +36,15 @@ export class StudySession {
     return this.#participants;
   }
 
+  get ownerId() {
+    return this.#ownerId;
+  }
+
   /**
    * Updates the session title.
    * @param {string} newTitle - The new title for the session.
    */
-  changeTitle(newTitle) {
+  setTitle(newTitle) {
     // TODO: Add validation for title if required
     this.#title = newTitle;
   }
@@ -46,11 +53,28 @@ export class StudySession {
    * Adds a participant when the session is not full and the participant is not already included.
    * @param {string|number} participantId - The participant identifier to add.
    */
-  addParticipants(participantId) {
+  addParticipant(participantId) {
     const participantIdStr = String(participantId);
-    if (!this.participants.includes(participantIdStr) && !this.isFull()) {
-      this.participants.push(participantIdStr);
+    if (this.participants.includes(participantIdStr)) {
+      throw new Error("Participant already exists");
     }
+
+    if (this.isFull()) {
+      throw new Error("Session is full");
+    }
+
+    this.participants.push(participantIdStr);
+  }
+
+  removeParticipant(participantId) {
+    const participantIdStr = String(participantId);
+    if (!this.participants.includes(participantIdStr)) {
+      throw new Error("Participant not found");
+    }
+    // TODO: Consider the case where removing of owner is attempted. Should we allow it? Should we throw an error?
+    this.#participants = this.participants.filter(
+      (id) => id !== participantIdStr,
+    );
   }
 
   /**
@@ -69,6 +93,7 @@ export class StudySession {
       location: this.location,
       participants: this.participants,
       capacity: this.capacity,
+      ownerId: this.ownerId,
     };
   }
 }

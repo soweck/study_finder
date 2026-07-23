@@ -1,3 +1,5 @@
+import { UserStatus } from "./UserStatus.js";
+
 export class User {
   #id;
   #name;
@@ -6,16 +8,16 @@ export class User {
     id,
     name,
     friends = [],
-    status = "",
+    status = "OFFLINE",
     activity = "",
     note = "",
   }) {
     this.#id = String(id);
     this.#name = name;
     this.#friends = friends.map((friendId) => String(friendId));
-    this.status = status;
-    this.activity = activity;
-    this.note = note;
+    this.setStatus(status);
+    this.setActivity(activity);
+    this.setNote(note);
   }
 
   get id() {
@@ -36,17 +38,36 @@ export class User {
    */
   addFriend(friendId) {
     const friendIdStr = String(friendId);
-    if (!this.friends.includes(friendIdStr)) {
-      this.friends.push(friendIdStr);
+    if (this.friends.includes(friendIdStr)) {
+      throw new Error("Friend already exists");
     }
+
+    if (friendIdStr === this.#id) {
+      throw new Error("Cannot add yourself as a friend");
+    }
+
+    this.friends.push(friendIdStr);
+  }
+
+  removeFriend(friendId) {
+    const friendIdStr = String(friendId);
+    if (!this.friends.includes(friendIdStr)) {
+      throw new Error("Friend not found");
+    }
+
+    if (friendIdStr === this.#id) {
+      throw new Error("Cannot remove yourself as a friend");
+    }
+
+    this.#friends = this.friends.filter((id) => id !== friendIdStr);
   }
 
   /**
    * Updates the user's display name.
    * @param {string} newName - The new name for the user.
    */
-  changeName(newName) {
-    //TODO: Add validation for name if required
+  setName(newName) {
+    // TODO: Add validation for name if required
     this.#name = newName;
   }
 
@@ -54,17 +75,24 @@ export class User {
    * Updates the user's status text.
    * @param {string} status - The new status value.
    */
-  changeStatus(status) {
-    //TODO: Add validation for status if required
-    this.status = status;
+  setStatus(status) {
+    if (!status) {
+      throw new Error("Status cannot be empty");
+    }
+
+    if (!UserStatus[status.toUpperCase()]) {
+      throw new Error(`Invalid status: ${status}`);
+    }
+
+    this.status = UserStatus[status.toUpperCase()];
   }
 
   /**
    * Updates the user's current activity.
    * @param {string} activity - The new activity value.
    */
-  changeActivity(activity) {
-    //TODO: Add validation for activity if required
+  setActivity(activity) {
+    // TODO: Add validation for activity if required
     this.activity = activity;
   }
 
@@ -72,8 +100,8 @@ export class User {
    * Updates the user's note field.
    * @param {string} note - The new note value.
    */
-  changeNote(note) {
-    //TODO: Add validation for note if required
+  setNote(note) {
+    // TODO: Add validation for note if required
     this.note = note;
   }
 
