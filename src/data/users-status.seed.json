@@ -1,7 +1,7 @@
 [
   {
     "userId": 1,
-    "status": "Job",
+    "status": "Online",
     "activity": "",
     "note": ""
   },
@@ -19,7 +19,7 @@
   },
   {
     "userId": 4,
-    "status": "Focus",
+    "status": "Busy",
     "activity": "Exam",
     "note": ""
   },
@@ -67,6 +67,24 @@
   },
   {
     "userId": 12,
+    "status": "Offline",
+    "activity": "",
+    "note": ""
+  },
+  {
+    "userId": 13,
+    "status": "Offline",
+    "activity": "",
+    "note": ""
+  },
+  {
+    "userId": 14,
+    "status": "Offline",
+    "activity": "",
+    "note": ""
+  },
+  {
+    "userId": 15,
     "status": "Offline",
     "activity": "",
     "note": ""
